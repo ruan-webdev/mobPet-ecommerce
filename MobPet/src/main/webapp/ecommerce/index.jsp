@@ -241,14 +241,15 @@
 		</div>
 	</section>
 	<!-- End Small Banner -->
-
+	
 	<!-- Start Product Area -->
 	<div class="product-area section">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>Promoções</h2>
+					<br>
+						<h2>PROMOÇÕES</h2>
 					</div>
 				</div>
 			</div>
@@ -262,10 +263,10 @@
 				<!-- Single Banner  -->
 				<div class="col-lg-6 col-md-6 col-12">
 					<div class="single-banner">
-						<img src="images/dog-socks.jpg" alt="#">
+						<img src="images/racaoMagnus.jpg" alt="#">
 						<div class="content">
-							<p>Acessórios</p>
-							<h3>Acessórios <br>Com até<span> 35%</span></h3>
+							<p>Rações</p>
+							<h3>Magnus <br>Com até<span> 35%</span></h3>
 							<a href="#">Compre Agora</a>
 						</div>
 					</div>
@@ -294,7 +295,8 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>Produtos Populares</h2>
+					<br><br>
+						<h2>PRODUTOS POPULARES</h2>
 					</div>
 				</div>
 			</div>
@@ -305,8 +307,8 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="product-details.html">
-									<img class="default-img" src="images/bird-food.jpg" alt="#">
-									<img class="hover-img" src="images/bird-food.jpg" alt="#">
+									<img class="default-img" src="images/dog-medicine.jpg" alt="#">
+									<img class="hover-img" src="images/dog-medicine.jpg" alt="#">
 								</a>
 								<div class="button-head">
 									<div class="product-action">
@@ -323,7 +325,7 @@
 								</div>
 							</div>
 							<div class="product-content">
-								<h3><a href="product-details.html">Dipirona para cães e gatos</a>
+								<h3><a href="product-details.html">Pílulas antí-pulgas</a>
 								</h3>
 								<div class="product-price">
 									<span class="old">R$60.00</span>
@@ -354,7 +356,7 @@
 								</div>
 							</div>
 							<div class="product-content">
-								<h3><a href="product-details.html">Petisco Pedigree</a></h3>
+								<h3><a href="product-details.html">Ração Pedigree Cachorro Adulto</a></h3>
 								<div class="product-price">
 									<span>R$50.00</span>
 								</div>
@@ -384,7 +386,7 @@
 								</div>
 							</div>
 							<div class="product-content">
-								<h3><a href="product-details.html">Roupas verão</a></h3>
+								<h3><a href="product-details.html">Ração Equilíbrio Gato Filhote </a></h3>
 								<div class="product-price">
 									<span>R$50.00</span>
 								</div>
@@ -416,7 +418,7 @@
 								</div>
 							</div>
 							<div class="product-content">
-								<h3><a href="product-details.html">Caixa de transporte</a>
+								<h3><a href="product-details.html">Ração Petz Hamster</a>
 								</h3>
 								<div class="product-price">
 									<span>R$80.00</span>
@@ -448,13 +450,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="images/cat-food2.jpg" alt="#">
+									<img src="images/dog-food2.jpg" alt="#">
 									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
-									<h4 class="title"><a href="#">Shampoo anti pulgas</a></h4>
+									<h4 class="title"><a href="#">Rações Pedigree</a></h4>
 									<p class="price with-discount">$59</p>
 								</div>
 							</div>
@@ -466,13 +468,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="images/bird-food.jpg" alt="#">
+									<img src="images/dog-toy.jpg" alt="#">
 									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
-									<h5 class="title"><a href="#">Colchão para cães</a></h5>
+									<h5 class="title"><a href="#">Brinquedos para cães</a></h5>
 									<p class="price with-discount">R$44</p>
 								</div>
 							</div>
@@ -484,13 +486,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="images/bird-house3.jpg" alt="#">
+									<img src="images/dog-eater.jpg" alt="#">
 									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
-									<h5 class="title"><a href="#">Cone terápeutico</a></h5>
+									<h5 class="title"><a href="#">Pote para comida</a></h5>
 									<p class="price with-discount">R$89</p>
 								</div>
 							</div>
@@ -511,13 +513,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="images/cat-little-food.jpg" alt="#">
+									<img src="images/cat-toy.jpg" alt="#">
 									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
-									<h5 class="title"><a href="#">Rações Pedigree</a></h5>
+									<h5 class="title"><a href="#">Arranhador para gato</a></h5>
 									<p class="price with-discount">R$65</p>
 								</div>
 							</div>
@@ -553,7 +555,7 @@
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
-									<h5 class="title"><a href="#">Arranhador</a></h5>
+									<h5 class="title"><a href="#">Bolinha para cães</a></h5>
 									<p class="price with-discount">R$77</p>
 								</div>
 							</div>
@@ -610,7 +612,7 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="images/fish-food2.jpg" alt="#">
+									<img src="images/dog-toy2.jpg" alt="#">
 									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
