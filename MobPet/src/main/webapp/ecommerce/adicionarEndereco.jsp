@@ -115,6 +115,7 @@
 					<div class="col-lg-2 col-md-3 col-12">
 						<div class="right-bar">
 							<!-- Search Form -->
+							<c:set var="loggedUser" value="${sessionScope.loggedUser}"/>
 							<div class="sinlge-bar">
 								<a href="#" class="single-icon"><i class="fa fa-heart-o"
 									aria-hidden="true"></i></a>
@@ -233,9 +234,8 @@
 		</c:if>
 
 
-	<form id="dadosCliente" action="adicionarEndereco" method="POST">
-	
-			<input type="hidden" name="userId" value="${loggedUser.id}">
+	<form id="dadosCliente" action="../adicionarEndereco" method="POST">
+
 			<input type="hidden" name="operation" value="save">
 			
 		<div class="form-row">
@@ -294,9 +294,11 @@
 		</div>
 		
 			<div class="form-group">
-			<input type="submit" class="salvarButton" style="color:white; background-color:green " id="cadastrarEndereco" name="enviar" id="enviar" class="form-submit"
-				value=" Cadastrar" />
+			<input type="submit" class="salvarButton" style="color:white; background-color:green " id="cadastrarEndereco" name="enviar" id="enviar"
+				value="Cadastrar" />
 			</div>
+			
+				</form>
 	
 	<table class="table table-bordered" style="width: 800px">
 			<thead>
@@ -334,7 +336,7 @@
 			</tbody>
 		</table>
 		
-		</form>
+	
 
 		<br>
 

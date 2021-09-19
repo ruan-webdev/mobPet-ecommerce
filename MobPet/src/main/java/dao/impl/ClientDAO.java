@@ -143,7 +143,7 @@ public class ClientDAO extends AbstractDAO{
 			sql = "SELECT * from " + table + " WHERE cli_cpf=?";
 		} else if (client.getUsuario().getId() != 0) {
 			// consult by user id
-			sql = "SELECT * from " + table + " WHERE cli_id=?";
+			sql = "SELECT * from " + table + " WHERE cli_usr_id=?";
 		}
 
 		List<DomainEntity> clients = new ArrayList<DomainEntity>();
@@ -172,7 +172,7 @@ public class ClientDAO extends AbstractDAO{
 				currentClient.setGenero(rs.getString("cli_genero"));
 
 				User user = new User();
-				user.setId(rs.getInt("cli_id"));
+				user.setId(rs.getInt("cli_usr_id"));
 
 				user = (User) userDAO.consult(user).get(0);
 				

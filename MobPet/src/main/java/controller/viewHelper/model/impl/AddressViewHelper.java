@@ -118,6 +118,8 @@ public class AddressViewHelper implements IViewHelper {
 				} else if (tipo.equals("cobranca_entrega")) {
 					endereco.setTipoEndereco(AddressType.COBRANCA_ENTREGA);
 				}
+				
+				
 
 				Client cliente = new Client();
 
@@ -274,6 +276,8 @@ public class AddressViewHelper implements IViewHelper {
 				cliente.setUsuario(usuario);
 
 				endereco.setCliente(cliente);
+				
+				System.out.println(endereco);
 
 				return endereco;
 
@@ -300,7 +304,9 @@ public class AddressViewHelper implements IViewHelper {
 	public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String operation = request.getParameter("operation");
-
+		
+	
+		
 		if (operation.equals("save")) {
 			Address endereco = (Address) result.getEntities().get(0);
 			request.setAttribute("address", endereco);
@@ -308,11 +314,11 @@ public class AddressViewHelper implements IViewHelper {
 				return;
 			}
 			if (null == result.getMessage()) {
-				response.sendRedirect("adicionarEndereco.jsp");
+				response.sendRedirect("ecommerce/adicionarEndereco.jsp");
 			} else {
 				String[] messages = result.getMessage().trim().split("\n");
 				request.setAttribute("messages", messages);
-				request.getRequestDispatcher("adicionarEndereco.jsp").forward(request, response);
+				request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 			}
 		} else if (operation.equals("consult")) {
 			List<DomainEntity> adresses = (List<DomainEntity>) result.getEntities();
@@ -322,7 +328,7 @@ public class AddressViewHelper implements IViewHelper {
 				return;
 			}
 
-			request.getRequestDispatcher("adicionarEndereco.jsp").forward(request, response);
+			request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 		} else if (operation.equals("remove")) {
 			Address endereco = (Address) result.getEntities().get(0);
 
@@ -330,7 +336,7 @@ public class AddressViewHelper implements IViewHelper {
 				return;
 			}
 
-			response.sendRedirect("adicionarEndereco.jsp");
+			response.sendRedirect("ecommerce/adicionarEndereco.jsp");
 		} else if (operation.equals("update")) {
 			Address endereco = (Address) result.getEntities().get(0);
 			request.setAttribute("address", endereco);
@@ -338,11 +344,11 @@ public class AddressViewHelper implements IViewHelper {
 				return;
 			}
 			if (null == result.getMessage()) {
-				response.sendRedirect("adicionarEndereco.jsp");
+				response.sendRedirect("ecommerce/adicionarEndereco.jsp");
 			} else {
 				String[] messages = result.getMessage().trim().split("\n");
 				request.setAttribute("messages", messages);
-				request.getRequestDispatcher("adicionarEndereco.jsp").forward(request, response);
+				request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 			}
 		} else if (operation.equals("prepareUpdate")) {
 			Address endereco = (Address) result.getEntities().get(0);
@@ -353,7 +359,7 @@ public class AddressViewHelper implements IViewHelper {
 
 			request.setAttribute("endereco", endereco);
 
-			request.getRequestDispatcher("adicionarEndereco.jsp").forward(request, response);
+			request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 		}
 	}
 

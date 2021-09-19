@@ -15,6 +15,8 @@ import domain.client.User;
 import domain.client.UserType;
 
 public class LoginViewHelper implements IViewHelper {
+	
+
 
 	public DomainEntity getEntity(HttpServletRequest request) {
 		try {
@@ -57,11 +59,14 @@ public class LoginViewHelper implements IViewHelper {
 	public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String operation = request.getParameter("operation");
+		
+		System.out.println("cheguei aqui"+operation);
 
 		if (operation.equals("login")) {
 			List<DomainEntity> resultEntities = result.getEntities();
 
 			if (null == resultEntities) {
+				System.out.println("caiu no primeiro retorno");
 				return;
 			}
 
@@ -70,11 +75,15 @@ public class LoginViewHelper implements IViewHelper {
 				
 				request.getSession().setAttribute("loggedUser", resultUser);
 				
-				if (resultUser.getTipoUsuario() == UserType.CLIENT) {
-					response.sendRedirect("Mobpet/ecommerce/signed.jsp");
+				
+				System.out.println(resultUser);
+				if (resultUser.getTipoUsuario() == null ) {
+					
+					response.sendRedirect("ecommerce/signed.jsp");
 					return;
 				} else {
 					// TODO admin
+					System.out.println("caiu no segundo retorno");
 					return;
 				}
 			} else {
