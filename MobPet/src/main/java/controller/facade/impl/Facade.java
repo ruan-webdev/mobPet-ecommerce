@@ -96,6 +96,7 @@ public class Facade implements IFacade {
 
 		businessRulesCreditCardMap.put("save", businessRulesSaveCreditCard);
 		businessRulesCreditCardMap.put("update", businessRulesSaveCreditCard);
+		
 
 		businessRulesMap.put(Client.class.getName(), businessRulesClientMap);
 		businessRulesMap.put(Address.class.getName(), businessRulesAdressMap);
@@ -103,7 +104,7 @@ public class Facade implements IFacade {
 	}
 	
 	private void processBusinessRules(DomainEntity entity, List<IStrategy> businessRulesEntity) {
-		for (IStrategy businessRule : businessRulesEntity) {
+ 		for (IStrategy businessRule : businessRulesEntity) {
 			String message = businessRule.process(entity);
 			if (null != message) {
 				stringBuilder.append(message + '\n');
@@ -128,6 +129,8 @@ public class Facade implements IFacade {
 		if (stringBuilder.length() == 0) {
 			daosMap.get(entityName).save(entity);
 		} else {
+			
+			System.out.println("deu erro nessa paradinha aqui");
 			result.setMessage(stringBuilder.toString());
 		}
 

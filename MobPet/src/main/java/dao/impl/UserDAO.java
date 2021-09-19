@@ -158,7 +158,7 @@ public class UserDAO extends AbstractDAO {
 				currentUser.setId(rs.getInt(idTable));
 				currentUser.setEmail(rs.getString("usr_email"));
 				currentUser.setSenha(rs.getString("usr_senha"));
-				currentUser.setRole(rs.getString("usr_tipo").equals("client") ? UserRole.CLIENT : UserRole.ADMIN);
+				currentUser.setRole(rs.getString("usr_tipo").equals("cliente") ? UserRole.CLIENT : UserRole.ADMIN);
 				currentUser.setActive(rs.getBoolean("usr_ativo"));
 
 				users.add(currentUser);

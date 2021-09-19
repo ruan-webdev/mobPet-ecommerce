@@ -45,17 +45,17 @@ public class Servlet extends HttpServlet {
 		
 		// client
 
-		viewHelpersMap.put("../login", new LoginViewHelper());
-		viewHelpersMap.put("/ecommerce/cadastro", new ClientViewHelper());
-		viewHelpersMap.put("/MobPet/ecommerce/perfilCliente", new ClientViewHelper());
-		viewHelpersMap.put("/MobPet/ecommerce/alterarSenha", new ClientViewHelper());
-		viewHelpersMap.put("/ecommerce/signed", new ClientViewHelper());
+		viewHelpersMap.put("/MobPet/login", new LoginViewHelper());
+		viewHelpersMap.put("/MobPet/cadastro", new ClientViewHelper());
+		viewHelpersMap.put("/MobPet/perfilCliente", new ClientViewHelper());
+		viewHelpersMap.put("/MobPet/alterarSenha", new ClientViewHelper());
+		viewHelpersMap.put("/MobPet/signed", new ClientViewHelper());
 
 		// credit card
-		viewHelpersMap.put("/MobPet/ecommerce/adicionarCartao", new CreditCardViewHelper());
+		viewHelpersMap.put("/MobPet/adicionarCartao", new CreditCardViewHelper());
 	
 		// address
-		viewHelpersMap.put("/MobPet/ecommerce/adicionarEndereco", new AddressViewHelper());
+		viewHelpersMap.put("/MobPet/adicionarEndereco", new AddressViewHelper());
 
 	}
 
@@ -87,9 +87,12 @@ public class Servlet extends HttpServlet {
 		
 		System.out.println(request.getRequestURI());
 		
+		
+		
 		DomainEntity entity = viewHelper.getEntity(request);
 		
 		if (null == entity) {
+			System.out.println("entidade vazia");
 			return;
 		}
 		

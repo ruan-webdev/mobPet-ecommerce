@@ -1,6 +1,9 @@
 package dao.impl;
 
-import utils.ConnectionFactory;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,39 +45,31 @@ public class AddressDAO extends AbstractDAO{
             pstm.setString(7, endereco.getComplemento());
             pstm.setString(8, endereco.getTipoEndereco().toString().toUpperCase());
             pstm.setString(9, endereco.getApelido());
-
-
-            List<DomainEntity> clients = new ClientDAO().consult(endereco.getCliente());
-
-            Client consultClient = null;
-
-            if (clients != null && clients.size() > 0) {
-              consultClient = (Client) clients.get(0);
-              pstm.setInt(10, consultClient.getId());
-              pstm.execute();
-            }
-           
             
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				if (pstm != null) {
-					try {
-						pstm.close();
-					} catch (SQLException e) {
-					}
-				}
-				if (conn != null) {
-					try {
-						System.out.println("Closing connection...");
-						conn.close();
-					} catch (SQLException e) {
-					}
+            Client consultClient = (Client) new ClientDAO().consult(endereco.getCliente()).get(0);
+
+            pstm.setInt(10, consultClient.getId());
+        	pstm.execute();
+        	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstm != null) {
+				try {
+					pstm.close();
+				} catch (SQLException e) {
 				}
 			}
-			return 0;
+			if (conn != null) {
+				try {
+					System.out.println("Closing connection...");
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
 		}
-
+		return 0;
+	}
 
     public void remove(DomainEntity entity) {
 		Address endereco = (Address) entity;
@@ -192,7 +187,7 @@ public class AddressDAO extends AbstractDAO{
 				}
 
 				Client client = new Client();
-				client.setId(rs.getInt("ads_cli_id"));
+				client.setId(rs.getInt("edr_cli_id"));
 				
 				currentAddress.setCliente(client);
 			
