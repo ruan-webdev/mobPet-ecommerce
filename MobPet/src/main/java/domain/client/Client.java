@@ -8,87 +8,94 @@ import java.util.List;
 public class Client extends DomainEntity {
 
 
-	private String nome;
-	private String genero;
-    private LocalDate dataNascimento;
-    private String cpf;
-    private String telefone;
-    private List <Address> endereco;
-    private List <CreditCard> cartoesDeCredito;
-    private User usuario;
-    
-    public Client() {
+	private String name;
+	private String cpf;
+	private LocalDate dateOfBirth;
+	private Gender gender;
+	private List<Address> adresses;
+	private List<Phone> phones;
+	private List<CreditCard> creditCards;
+	private User user;
+
+	public Client() {
 
 	}
 
-	public Client(String nome, String cpf, LocalDate dataNascimento, String genero,
-			List<Address> endereco, String telefone, List<CreditCard> cartoesDeCredito, User usuario) {
+	public Client(String name, String cpf, LocalDate dateOfBirth, Gender gender,
+			List<Address> adresses, List<Phone> phones, List<CreditCard> creditCards, User user) {
 		super();
-		this.nome = nome;
+		this.name = name;
 		this.cpf = cpf;
-		this.dataNascimento = dataNascimento;
-		this.endereco = endereco;
-		this.telefone = telefone;
-		this.cartoesDeCredito = cartoesDeCredito;
-		this.usuario = usuario;
+		this.dateOfBirth = dateOfBirth;
+		this.gender = gender;
+		this.adresses = adresses;
+		this.phones = phones;
+		this.creditCards = creditCards;
+		this.user = user;
 	}
 
-    
+	public String getName() {
+		return name;
+	}
 
-    public String getNome() {
-		return nome;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getGenero() {
-		return genero;
-	}
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
-	}
-	public void setDataNascimento(LocalDate localDate) {
-		this.dataNascimento = localDate;
-	}
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-
-	public List<Address> getEndereco() {
-		return endereco;
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
-	public void setEndereco(List<Address> endereco) {
-		this.endereco = endereco;
+	public Gender getGender() {
+		return gender;
 	}
 
-	public List<CreditCard> getCartoesDeCredito() {
-		return cartoesDeCredito;
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 
-	public void setCartoesDeCredito(List<CreditCard> cartoesDeCredito) {
-		this.cartoesDeCredito = cartoesDeCredito;
+	public List<Address> getAdresses() {
+		return adresses;
 	}
 
-	public User getUsuario() {
-		return usuario;
+	public void setAdresses(List<Address> adresses) {
+		this.adresses = adresses;
 	}
 
-	public void setUsuario(User usuario) {
-		this.usuario = usuario;
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
+	}
+
+	public List<CreditCard> getCreditCards() {
+		return creditCards;
+	}
+
+	public void setCreditCards(List<CreditCard> creditCards) {
+		this.creditCards = creditCards;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	public String getDecoratedCpf() {

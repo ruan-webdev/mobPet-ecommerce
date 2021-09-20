@@ -10,14 +10,14 @@ import domain.client.DomainEntity;
 public class ValidateExpirationDate implements IStrategy {
 
 	public String process(DomainEntity entity) {
-
-		CreditCard cartaoDeCredito = (CreditCard) entity;
+		CreditCard creditCard = (CreditCard) entity;
 		
 		LocalDateTime now = LocalDate.now().atStartOfDay();
 				
-		if (cartaoDeCredito.getValidade().atStartOfDay().isBefore(now)) {
+		if (creditCard.getExpirationDate().atStartOfDay().isBefore(now)) {
 			return "Cartão vencido";
 		}
+		
 		return null;
 	}
 

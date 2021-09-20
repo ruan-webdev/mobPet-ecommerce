@@ -7,18 +7,14 @@ import domain.client.Client;
 import domain.client.DomainEntity;
 
 public class ValidateCPF implements IStrategy {
-
 	public String process(DomainEntity entity) {
-	
-		Client cliente = (Client) entity;
+		Client client = (Client) entity;
 
-		String cpf = cliente.getCpf();
+		String cpf = client.getCpf();
 
 		if (null == cpf || cpf.trim().isEmpty()) {
 			return "CPF inválido";
 		}
-		
-	
 
 		if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
 				|| cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555")
@@ -67,9 +63,8 @@ public class ValidateCPF implements IStrategy {
 		} catch (InputMismatchException ex) {
 			return "CPF inválido";
 		}
-		
-	
 	}
+
 		
 	
 		

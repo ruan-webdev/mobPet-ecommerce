@@ -8,36 +8,32 @@ public class ValidateAdressData implements IStrategy {
 
 	public String process(DomainEntity entity) {
 		// TODO Auto-generated method stub
-		Address endereco = (Address) entity;
+		Address address = (Address) entity;
 		
-		
-		System.out.println("validacao conjunta "+endereco);
-		
-		if (null == endereco.getCep() || endereco.getCep().trim().isEmpty()) {
+		if (null == address.getCep() || address.getCep().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		
-	
-		if (null == endereco.getLogradouro() || endereco.getLogradouro().toString().trim().isEmpty()) {
+		if (null == address.getPublicPlace() || address.getPublicPlace().toString().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == endereco.getNumero() || endereco.getNumero().trim().isEmpty()) {
+		if (null == address.getNumber() || address.getNumber().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == endereco.getBairro() || endereco.getBairro().trim().isEmpty()) {
+		if (null == address.getNeighbourhood() || address.getNeighbourhood().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		System.out.println("validacao conjunta "+endereco);
-		if (null == endereco.getCidade() || endereco.getCidade().trim().isEmpty()) {
+		if (null == address.getType() || address.getType().toString().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		System.out.println("validacao conjunta "+endereco);
-		if (null == endereco.getEstado() || endereco.getEstado().trim().isEmpty()) {
+		if (null == address.getCity() || address.getCity().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		
+		if (null == address.getState() || address.getState().trim().isEmpty()) {
+			return "Preencha todos os campos obrigatórios";
+		}
 		
 		return null;
 	}
+
 
 }

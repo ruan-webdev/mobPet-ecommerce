@@ -10,12 +10,11 @@ import domain.client.DomainEntity;
 public class ValidateDateOfBirth implements IStrategy{
 
 	public String process(DomainEntity entity) {
-		
-Client cliente = (Client) entity;
+		Client client = (Client) entity;
 		
 		LocalDateTime now = LocalDate.now().atStartOfDay();
 				
-		if (!cliente.getDataNascimento().atStartOfDay().isBefore(now)) {
+		if (!client.getDateOfBirth().atStartOfDay().isBefore(now)) {
 			return "Data de nascimento inválida";
 		}
 		

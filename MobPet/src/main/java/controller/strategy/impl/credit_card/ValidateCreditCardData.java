@@ -7,24 +7,24 @@ import domain.client.DomainEntity;
 public class ValidateCreditCardData implements IStrategy {
 
 	public String process(DomainEntity entity) {
+		CreditCard creditCard = (CreditCard) entity;
 		
-		CreditCard cartaoDeCredito = (CreditCard) entity;
-		
-		if (null == cartaoDeCredito.getNum() || cartaoDeCredito.getNum().trim().isEmpty()) {
+		if (null == creditCard.getNumber() || creditCard.getNumber().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == cartaoDeCredito.getValidade() || cartaoDeCredito.getValidade().toString().trim().isEmpty()) {
+		if (null == creditCard.getExpirationDate() || creditCard.getExpirationDate().toString().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == cartaoDeCredito.getCodigo() || cartaoDeCredito.getCodigo().trim().isEmpty()) {
+		if (null == creditCard.getSecurityCode() || creditCard.getSecurityCode().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == cartaoDeCredito.getNome() || cartaoDeCredito.getNome().trim().isEmpty()) {
+		if (null == creditCard.getPrintedName() || creditCard.getPrintedName().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
 		
 		return null;
 	}
+
 
 }
 

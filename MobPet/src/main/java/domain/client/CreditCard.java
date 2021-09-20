@@ -4,89 +4,78 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class CreditCard extends DomainEntity {
-    private String num;
-    private String nomeImpresso;
-    private String bandeira;
-    private LocalDate validade;
-    private String codigo;
-    private String apelido;
-    private Client cliente;
+  
+	private String number;
+	private LocalDate expirationDate;
+	private String securityCode;
+	private String printedName;
+	private Client client;
+	private boolean active;
 
-    
-    
-    public CreditCard() {
-    	
-    }
-    
-    
-    public CreditCard(String num, String nomeImpresso, String bandeira, 
-    		LocalDate validade, String codigo, String apelido) {
-		this.num = num;
-		this.nomeImpresso = nomeImpresso;
-		this.bandeira = bandeira;
-		this.validade = validade;
-		this.codigo = codigo;
-		this.apelido = apelido;
-		
-	}
-    
-    
-    public String getNum() {
-        return num;
-    }
+	public CreditCard() {
 
-    public void setNum(String numCartao) {
-        this.num = numCartao;
-    }
-
-    public String getNome() {
-        return nomeImpresso;
-    }
-
-    public void setNome(String nomeImpresso) {
-        this.nomeImpresso = nomeImpresso;
-    }
-
-    public String getBandeira() {
-        return bandeira;
-    }
-
-    public void setBandeira(String bandeira) {
-        this.bandeira = bandeira;
-    }
-
-    public LocalDate getValidade() {
-        return validade;
-    }
-
-    public void setValidade(LocalDate validade) {
-        this.validade = validade;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-    
-    public String getApelido() {
-        return apelido;
-    }
-
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
-    }
-
-
-	public Client getCliente() {
-		return cliente;
 	}
 
-
-	public void setCliente(Client cliente) {
-		this.cliente = cliente;
+	public CreditCard(String number, LocalDate expirationDate, String securityCode, String printedName, Client client,
+			boolean active) {
+		this.number = number;
+		this.expirationDate = expirationDate;
+		this.securityCode = securityCode;
+		this.printedName = printedName;
+		this.client = client;
+		this.active = active;
 	}
-    
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public LocalDate getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(LocalDate expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public String getSecurityCode() {
+		return securityCode;
+	}
+
+	public void setSecurityCode(String securityCode) {
+		this.securityCode = securityCode;
+	}
+
+	public String getPrintedName() {
+		return printedName;
+	}
+
+	public void setPrintedName(String printedName) {
+		this.printedName = printedName;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean isActive) {
+		this.active = isActive;
+	}
+	
+	public Date getExpirationDateWithDateType() {
+		return Date.valueOf(expirationDate);
+	}
+
 }

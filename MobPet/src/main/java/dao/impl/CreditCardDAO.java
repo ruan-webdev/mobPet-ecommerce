@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +15,11 @@ import dao.AbstractDAO;
 import java.sql.Date;
 
 
-import utils.ConnectionFactory;
-
 public class CreditCardDAO extends AbstractDAO {
 
+
 	public CreditCardDAO() {
-		super("cartoes_credito", "cdc_id");
+		super("credit_cards", "crc_id");
 	}
 
 
@@ -28,27 +27,25 @@ public class CreditCardDAO extends AbstractDAO {
 		openConnection();
 		PreparedStatement pstm = null;
 
-		CreditCard cartaoCredito = (CreditCard) entity;
+		CreditCard creditCard = (CreditCard) entity;
 
 		String sql = "INSERT INTO " + table
-				+ "(cdc_nome, cdc_num, cdc_codigo, cdc_flag, cdc_validade, cdc_apelido, cdc_cli_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				+ "(crc_number, crc_expiration_date, crc_security_code, crc_printed_name, crc_cli_id, crc_is_active) VALUES (?, ?, ?, ?, ?, ?)";
 
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = connection.prepareStatement(sql);
 
-			pstm.setString(1, cartaoCredito.getNome());
-			pstm.setString(2, cartaoCredito.getNum());
-			pstm.setString(3, cartaoCredito.getCodigo());
-			pstm.setString(4, cartaoCredito.getBandeira());
-			pstm.setDate(5, Date.valueOf(cartaoCredito.getValidade()));
-			pstm.setString(6, cartaoCredito.getApelido());
+			pstm.setString(1, creditCard.getNumber());
+			pstm.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
+			pstm.setString(3, creditCard.getSecurityCode());
+			pstm.setString(4, creditCard.getPrintedName());
 
-			Client consultClient = (Client) new ClientDAO().consult(cartaoCredito.getCliente()).get(0);
+			Client consultClient = (Client) new ClientDAO().consult(creditCard.getClient()).get(0);
 
-			pstm.setInt(7, consultClient.getId());
+			pstm.setInt(5, consultClient.getId());
+			pstm.setBoolean(6, creditCard.isActive());
 
 			pstm.execute();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -58,10 +55,10 @@ public class CreditCardDAO extends AbstractDAO {
 				} catch (SQLException e) {
 				}
 			}
-			if (conn != null) {
+			if (connection != null) {
 				try {
 					System.out.println("Closing connection...");
-					conn.close();
+					connection.close();
 				} catch (SQLException e) {
 				}
 			}
@@ -72,50 +69,47 @@ public class CreditCardDAO extends AbstractDAO {
 
 	public void remove(DomainEntity entity) {
 		CreditCard creditCard = (CreditCard) entity;
-
+		creditCard.setActive(false);
 
 		update(creditCard);
 	}
 
-	
+
 	public void update(DomainEntity entity) {
 		openConnection();
 
 		PreparedStatement pstm = null;
 
-		CreditCard cartaoCredito = (CreditCard) entity;
+		CreditCard creditCard = (CreditCard) entity;
 
 		String sql = "";
-		
 
-
-		if (null != cartaoCredito.getValidade()) {
+		if (null != creditCard.getExpirationDate()) {
 			sql = "UPDATE " + table
-				+ " SET cdc_num=?, cdc_validade?, cdc_codigo=?, cdc_nome=?, WHERE "
+				+ " SET crc_number=?, crc_expiration_date=?, crc_security_code=?, crc_printed_name=?, crc_is_active=? WHERE "
 				+ idTable + "=?";
 		} else {
-	
+			sql = "UPDATE " + table
+					+ " SET crc_is_active=? WHERE "
+					+ idTable + "=?";
 		}
 
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = connection.prepareStatement(sql);
 
-			if (null != cartaoCredito.getValidade()) {
-				pstm.setString(1, cartaoCredito.getNome());
-				pstm.setString(2, cartaoCredito.getNum());
-				pstm.setString(3, cartaoCredito.getCodigo());
-				pstm.setString(4, cartaoCredito.getBandeira());
-				pstm.setDate(5, Date.valueOf(cartaoCredito.getValidade()));
-				pstm.setString(6, cartaoCredito.getApelido());
-				pstm.setInt(7, cartaoCredito.getId());
-				
+			if (null != creditCard.getExpirationDate()) {
+				pstm.setString(1, creditCard.getNumber());
+				pstm.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
+				pstm.setString(3, creditCard.getSecurityCode());
+				pstm.setString(4, creditCard.getPrintedName());
+				pstm.setBoolean(5, creditCard.isActive());
+				pstm.setInt(6, creditCard.getId());
 			} else {
-				pstm.setInt(1, cartaoCredito.getId());
+				pstm.setBoolean(1, creditCard.isActive());
+				pstm.setInt(2, creditCard.getId());
 			}
 
 			pstm.executeUpdate();
-			
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -125,56 +119,55 @@ public class CreditCardDAO extends AbstractDAO {
 				} catch (SQLException e) {
 				}
 			}
-			if (conn != null) {
+			if (connection != null) {
 				try {
 					System.out.println("Closing connection...");
-					conn.close();
+					connection.close();
 				} catch (SQLException e) {
 				}
 			}
 		}
 	}
-
-
+    
 	public List<DomainEntity> consult(DomainEntity entity) {
 		openConnection();
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 
-		CreditCard cartaoCredito = (CreditCard) entity;
+		CreditCard creditCard = (CreditCard) entity;
 
 		String sql = "";
 
-		if (cartaoCredito.getId() != 0) {
+		if (creditCard.getId() != 0) {
 			// consult by id
 			sql = "SELECT * from " + table + " WHERE " + idTable + "=?";
-		} else if (null == cartaoCredito.getNum() && cartaoCredito.getCliente().getUsuario().getId() != 0) {
+		} else if (null == creditCard.getNumber() && creditCard.getClient().getUser().getId() != 0) {
 			// consult by user id
 			sql = "SELECT * from " + table
-					+ " INNER JOIN clientes ON cartoes_credito.cdc_cli_id=clientes.cli_id WHERE clientes.cli_usr_id=?";
-		} else if (null != cartaoCredito.getNum() && cartaoCredito.getCliente().getUsuario().getId() != 0) {
+					+ " INNER JOIN clients ON credit_cards.crc_cli_id=clients.cli_id WHERE clients.cli_usr_id=?";
+		} else if (null != creditCard.getNumber() && creditCard.getClient().getUser().getId() != 0) {
 			// consult by number and user id
-			sql = "SELECT * from " + table + " WHERE cdc_cli_id=? AND cdc_num=? ";
+			sql = "SELECT * from " + table + " WHERE crc_cli_id=? AND crc_number=? AND pho_is_active=?";
 		}
 
 		List<DomainEntity> creditCards = new ArrayList<DomainEntity>();
 
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = connection.prepareStatement(sql);
 
-			if (cartaoCredito.getId() != 0) {
+			if (creditCard.getId() != 0) {
 				// consult by id
-				pstm.setInt(1, cartaoCredito.getId());
-			} else if (null == cartaoCredito.getNum() && cartaoCredito.getCliente().getUsuario().getId() != 0) {
+				pstm.setInt(1, creditCard.getId());
+			} else if (null == creditCard.getNumber() && creditCard.getClient().getUser().getId() != 0) {
 				// consult by user id
-				pstm.setInt(1, cartaoCredito.getCliente().getUsuario().getId());
-			} else if (null != cartaoCredito.getNum() && cartaoCredito.getCliente().getUsuario().getId() != 0) {
+				pstm.setInt(1, creditCard.getClient().getUser().getId());
+			} else if (null != creditCard.getNumber() && creditCard.getClient().getUser().getId() != 0) {
 				// consult by number and user id
-				Client consultClient = (Client) new ClientDAO().consult(cartaoCredito.getCliente()).get(0);
+				Client consultClient = (Client) new ClientDAO().consult(creditCard.getClient()).get(0);
 
 				pstm.setInt(1, consultClient.getId());
-				pstm.setString(2, cartaoCredito.getNum());
+				pstm.setString(2, creditCard.getNumber());
 				pstm.setBoolean(3, true);
 			}
 
@@ -183,17 +176,17 @@ public class CreditCardDAO extends AbstractDAO {
 			while (rs.next()) {
 				CreditCard currentCreditCard = new CreditCard();
 				currentCreditCard.setId(rs.getInt(idTable));
-				currentCreditCard.setNum(rs.getString("cdc_num"));
-				currentCreditCard.setValidade(rs.getDate("cdc_validade").toLocalDate());
-				currentCreditCard.setCodigo(rs.getString("cdc_codigo"));
-				currentCreditCard.setNome(rs.getString("cdc_nome"));
-				currentCreditCard.setBandeira(rs.getString("cdc_flag"));
-				currentCreditCard.setApelido(rs.getString("cdc_apelido"));
-				
-				Client client = new Client();
-				client.setId(rs.getInt("cdc_cli_id"));
+				currentCreditCard.setNumber(rs.getString("crc_number"));
+				currentCreditCard.setExpirationDate(rs.getDate("crc_expiration_date").toLocalDate());
+				currentCreditCard.setSecurityCode(rs.getString("crc_security_code"));
+				currentCreditCard.setPrintedName(rs.getString("crc_printed_name"));
 
-				currentCreditCard.setCliente(client);
+				Client client = new Client();
+				client.setId(rs.getInt("crc_cli_id"));
+
+				currentCreditCard.setClient(client);
+
+				currentCreditCard.setActive(rs.getBoolean("crc_is_active"));
 
 				creditCards.add(currentCreditCard);
 			}
@@ -208,10 +201,10 @@ public class CreditCardDAO extends AbstractDAO {
 				} catch (SQLException e) {
 				}
 			}
-			if (conn != null) {
+			if (connection != null) {
 				try {
 					System.out.println("Closing connection...");
-					conn.close();
+					connection.close();
 				} catch (SQLException e) {
 				}
 			}
@@ -219,5 +212,6 @@ public class CreditCardDAO extends AbstractDAO {
 
 		return creditCards;
 	}
+
 
 }

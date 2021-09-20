@@ -7,10 +7,9 @@ import domain.client.DomainEntity;
 public class ValidateEmail implements IStrategy  {
 
 	public String process(DomainEntity entity) {
-		
-		Client cliente = (Client) entity;
+		Client client = (Client) entity;
 
-		String email = cliente.getUsuario().getEmail();
+		String email = client.getUser().getEmail();
 
 		if (null == email || email.trim().isEmpty()) {
 			return "E-mail inválido";

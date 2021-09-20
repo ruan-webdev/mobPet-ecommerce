@@ -57,6 +57,10 @@
 
 <body class="js">
 
+<c:if test="${not empty requestScope.client}">
+		<c:set var="client" value="${requestScope.client}"/>
+	</c:if>
+
     <!-- Header -->
     <header class="header shop">
         <!-- Topbar -->
@@ -152,7 +156,7 @@
                                 <!--/ End Shopping Item -->
                             </div>
                             <div class="sinlge-bar">
-                                <h1 id="cadastrar"><a href="login.jsp">Bem vindo, Ruan</a></h1>
+                                <h1 id="cadastrar"><a href="login.jsp">Bem vindo, <c:out value="${loggedUser.email}"/></a></h1>
                             </div>
 
                         </div>
@@ -238,10 +242,10 @@
 					</c:if>
 
     <form id="dadosCliente" method="POST" action="update">
-    		<input type="hidden" name="operation" value="update">
+        	<input type="hidden" name="operation" value="update">
 			<input type="hidden" name="clientId" value="${client.id}">
 			<input type="hidden" name="clientUserId" value="${client.user.id}">
-			<input type="hidden" name="cpf" value="${client.cpf}">
+			<input type="hidden" name="cpf" value="${client.getDecoratedCpf()}">
 			<input type="hidden" name="email" value="${client.user.email}">
         
 
@@ -250,23 +254,23 @@
 
             <div class="form-group col-md-6">
                 <label for="inputEmail4">Nome Completo</label>
-                <input type="text" class="form-control" id="nome" name="nome" <c:out value="${client.nome}"/>>
+                <input type="text" class="form-control" id="nome" name="nome" value="<c:out value="${client.nome}"/>">
             </div>
             <div class="form-group col-md-3">
                 <label for="inputCpf4">CPF</label>
-                <input type="text" class="form-control" id="cpf" name="cpf" <c:out value="${cliente.cpf}"/>
+                <input type="text" class="form-control" id="cpf" name="cpf" value="<c:out value="${client.cpf}"/>"
                     pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" OnKeyPress="formatar('###.###.###-##', this)" maxlength="14"
                     disabled>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">Email</label>
                 <input type="email" class="form-control" id="email" name="email"  type="text"
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" <c:out value="${client.user.email}"/> >
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<c:out value="${client.user.email}"/>">
             </div>
             <div class="form-group col-md-3">
                 <label for="inputDataNascimento">Data de Nascimento</label>
                 <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" pattern=/(\d{2})\/(\d{2})\/(\d{4})
-                    OnKeyPress="formatar('##/##/####', this)" maxlength="10" required value="<c:out value="${client.dateOfBirth}"/>">
+                    OnKeyPress="formatar('##/##/####', this)" maxlength="10" required value="<c:out value="${client.DataDeNascimento}"/>">
             </div>
         </div>
         <div class="form-row">

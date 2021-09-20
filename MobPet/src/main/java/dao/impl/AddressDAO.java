@@ -16,41 +16,40 @@ import dao.AbstractDAO;
 
 public class AddressDAO extends AbstractDAO{
 
-    public AddressDAO() {
-		super("enderecos","edr_id");
-		
+
+	public AddressDAO() {
+		super("address", "ads_id");
 	}
 
 
-    public int save(DomainEntity entity) {
+	public int save(DomainEntity entity) {
+		openConnection();
+		PreparedStatement pstm = null;
 
-    	openConnection();
-    	PreparedStatement pstm = null;
-    	
-        Address endereco = (Address) entity;
-        
-        String sql = "INSERT INTO " + table + "(edr_estado, edr_cep, edr_cidade, edr_bairro, edr_logradouro, edr_num, edr_complemento, edr_tipo, edr_nome_perso, edr_cli_id)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		Address address = (Address) entity;
 
-        try {
-            
-        	pstm = conn.prepareStatement(sql);
+		String sql = "INSERT INTO " + table + "(ads_cep, ads_public_place, ads_number, "
+				+ "ads_complement, ads_neighbourhood, ads_city, ads_state, ads_type, "
+				+ "ads_cli_id, ads_is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            pstm.setString(1, endereco.getEstado());
-            pstm.setString(2, endereco.getCep());
-            pstm.setString(3, endereco.getCidade());
-            pstm.setString(4, endereco.getBairro());
-            pstm.setString(5, endereco.getLogradouro());
-            pstm.setString(6, endereco.getNumero());
-            pstm.setString(7, endereco.getComplemento());
-            pstm.setString(8, endereco.getTipoEndereco().toString().toUpperCase());
-            pstm.setString(9, endereco.getApelido());
-            
-            Client consultClient = (Client) new ClientDAO().consult(endereco.getCliente()).get(0);
+		try {
+			pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(10, consultClient.getId());
-        	pstm.execute();
-        	
+			pstm.setString(1, address.getCep());
+			pstm.setString(2, address.getPublicPlace());
+			pstm.setString(3, address.getNumber());
+			pstm.setString(4, address.getComplement());
+			pstm.setString(5, address.getNeighbourhood());
+			pstm.setString(6, address.getCity());
+			pstm.setString(7, address.getState());
+			pstm.setString(8, address.getType().toString().toLowerCase());
+
+			Client consultClient = (Client) new ClientDAO().consult(address.getClient()).get(0);
+
+			pstm.setInt(9, consultClient.getId());
+			pstm.setBoolean(10, address.isActive());
+
+			pstm.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -60,10 +59,10 @@ public class AddressDAO extends AbstractDAO{
 				} catch (SQLException e) {
 				}
 			}
-			if (conn != null) {
+			if (connection != null) {
 				try {
 					System.out.println("Closing connection...");
-					conn.close();
+					connection.close();
 				} catch (SQLException e) {
 				}
 			}
@@ -71,44 +70,51 @@ public class AddressDAO extends AbstractDAO{
 		return 0;
 	}
 
-    public void remove(DomainEntity entity) {
-		Address endereco = (Address) entity;
 
-		update(endereco);
+	public void remove(DomainEntity entity) {
+		Address address = (Address) entity;
+		address.setActive(false);
+
+		update(address);
 	}
-    
 
-    public void update(DomainEntity entity) {
+
+	public void update(DomainEntity entity) {
 		openConnection();
 
 		PreparedStatement pstm = null;
 
-		Address endereco = (Address) entity;
+		Address address = (Address) entity;
 
 		String sql = "";
 		
-		if (null != endereco.getCep()) {
+		if (null != address.getCep()) {
 			sql = "UPDATE " + table
-				+ " SET edr_estado=?, edr_cep=?, edr_cidade=?, edr_bairro=?, edr_logradouro=?, adr_num=?, edr_complemento=?, edr_tipo=?, edr_nome_perso=? WHERE "
+				+ " SET ads_cep=?, ads_public_place=?, ads_number=?, ads_complement=?, ads_neighbourhood=?, ads_city=?, ads_state=?, ads_type=?, ads_is_active=? WHERE "
 				+ idTable + "=?";
+		} else {
+			sql = "UPDATE " + table
+					+ " SET ads_is_active=? WHERE "
+					+ idTable + "=?";
 		}
 
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = connection.prepareStatement(sql);
 
-			if (null != endereco.getCep()) {
-				pstm.setString(1, endereco.getEstado());
-				pstm.setString(2, endereco.getCep());
-				pstm.setString(3, endereco.getCidade());
-				pstm.setString(4, endereco.getBairro());
-				pstm.setString(5, endereco.getLogradouro());
-				pstm.setString(6, endereco.getNumero());
-				pstm.setString(7, endereco.getComplemento());
-				pstm.setString(8, endereco.getTipoEndereco().toString().toUpperCase());
-				pstm.setString(9, endereco.getApelido());
-				pstm.setInt(10, endereco.getId());
+			if (null != address.getCep()) {
+				pstm.setString(1, address.getCep());
+				pstm.setString(2, address.getPublicPlace());
+				pstm.setString(3, address.getNumber());
+				pstm.setString(4, address.getComplement());
+				pstm.setString(5, address.getNeighbourhood());
+				pstm.setString(6, address.getCity());
+				pstm.setString(7, address.getState());
+				pstm.setString(8, address.getType().toString().toLowerCase());
+				pstm.setBoolean(9, address.isActive());
+				pstm.setInt(10, address.getId());
 			} else {
-				pstm.setInt(2, endereco.getId());
+				pstm.setBoolean(1, address.isActive());
+				pstm.setInt(2, address.getId());
 			}
 
 			pstm.executeUpdate();
@@ -121,46 +127,47 @@ public class AddressDAO extends AbstractDAO{
 				} catch (SQLException e) {
 				}
 			}
-			if (conn != null) {
+			if (connection != null) {
 				try {
 					System.out.println("Closing connection...");
-					conn.close();
+					connection.close();
 				} catch (SQLException e) {
 				}
 			}
 		}
 	}
 
-    public List<DomainEntity> consult(DomainEntity entity) {
+
+	public List<DomainEntity> consult(DomainEntity entity) {
 		openConnection();
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 
-		Address endereco = (Address) entity;
+		Address address = (Address) entity;
 
 		String sql = "";
 
-		if (endereco.getId() != 0) {
+		if (address.getId() != 0) {
 			// consult by id
 			sql = "SELECT * from " + table + " WHERE " + idTable + "=?";
-		} else if (endereco.getCliente().getUsuario().getId() != 0) {
+		} else if (address.getClient().getUser().getId() != 0) {
 			// consult by user id
 			sql = "SELECT * from " + table
-					+ " INNER JOIN clientes ON endereco.edr_cli_id=clientes.cli_id WHERE clientes.cli_usr=?";
+					+ " INNER JOIN clients ON address.ads_cli_id=clients.cli_id WHERE clients.cli_usr_id=?";
 		}
 
 		List<DomainEntity> adresses = new ArrayList<DomainEntity>();
 
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = connection.prepareStatement(sql);
 
-			if (endereco.getId() != 0) {
+			if (address.getId() != 0) {
 				// consult by id
-				pstm.setInt(1, endereco.getId());
-			} else if (endereco.getCliente().getUsuario().getId() != 0) {
+				pstm.setInt(1, address.getId());
+			} else if (address.getClient().getUser().getId() != 0) {
 				// consult by user id
-				pstm.setInt(1, endereco.getCliente().getUsuario().getId());
+				pstm.setInt(1, address.getClient().getUser().getId());
 			}
 
 			rs = pstm.executeQuery();
@@ -168,29 +175,28 @@ public class AddressDAO extends AbstractDAO{
 			while (rs.next()) {
 				Address currentAddress = new Address();
 				currentAddress.setId(rs.getInt(idTable));
-				currentAddress.setEstado(rs.getString("edr_estado"));
-				currentAddress.setCep(rs.getString("edr_cep"));
-				currentAddress.setCidade(rs.getString("edr_cidade"));
-				currentAddress.setBairro(rs.getString("edr_bairro"));
-				currentAddress.setLogradouro(rs.getString("edr_logradouro"));
-				currentAddress.setNumero(rs.getString("edr_num"));
-				currentAddress.setComplemento(rs.getString("edr_complemento"));
-				currentAddress.setApelido(rs.getString("edr_tipo_perso"));
-				
+				currentAddress.setCep(rs.getString("ads_cep"));
+				currentAddress.setPublicPlace(rs.getString("ads_public_place"));
+				currentAddress.setNumber(rs.getString("ads_number"));
+				currentAddress.setComplement(rs.getString("ads_complement"));
+				currentAddress.setNeighbourhood(rs.getString("ads_neighbourhood"));
+				currentAddress.setCity(rs.getString("ads_city"));
+				currentAddress.setState(rs.getString("ads_state"));
 
-				if (rs.getString("edr_tipo").equals("entrega")) {
-					currentAddress.setTipoEndereco(AddressType.ENTREGA);
-				} else if (rs.getString("edr_tipo").equals("cobranca")) {
-					currentAddress.setTipoEndereco(AddressType.COBRANCA);
-				} else if (rs.getString("edr_tipo").equals("cobranca_entrega")) {
-					currentAddress.setTipoEndereco(AddressType.COBRANCA_ENTREGA);
+				if (rs.getString("ads_type").equals("shipping")) {
+					currentAddress.setType(AddressType.SHIPPING);
+				} else if (rs.getString("ads_type").equals("billing")) {
+					currentAddress.setType(AddressType.BILLING);
+				} else if (rs.getString("ads_type").equals("shipping_and_billing")) {
+					currentAddress.setType(AddressType.SHIPPING_AND_BILLING);
 				}
 
 				Client client = new Client();
-				client.setId(rs.getInt("edr_cli_id"));
+				client.setId(rs.getInt("ads_cli_id"));
 				
-				currentAddress.setCliente(client);
-			
+				currentAddress.setClient(client);
+				
+				currentAddress.setActive(rs.getBoolean("ads_is_active"));
 				
 				adresses.add(currentAddress);
 			}
@@ -205,10 +211,10 @@ public class AddressDAO extends AbstractDAO{
 				} catch (SQLException e) {
 				}
 			}
-			if (conn != null) {
+			if (connection != null) {
 				try {
 					System.out.println("Closing connection...");
-					conn.close();
+					connection.close();
 				} catch (SQLException e) {
 				}
 			}
@@ -216,4 +222,5 @@ public class AddressDAO extends AbstractDAO{
 
 		return adresses;
 	}
+
 }

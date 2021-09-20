@@ -3,118 +3,113 @@ package domain.client;
 
 public class Address extends DomainEntity {
 
-    private String logradouro;
-    private String numero;
-    private String bairro;
-    private String cep;
-    private String cidade;
-    private String estado;
-    private String complemento;
-    private String apelido;
-    private Client cliente;
-    private AddressType tipoEndereco;
-
-    
+	private String cep;
+	private String publicPlace;
+	private String number;
+	private String complement;
+	private String neighbourhood;
+	private String city;
+	private String state;
+	private Client client;
+	private AddressType type;
+	private boolean active;
 
 	public Address() {
 
 	}
 
-	public Address(String cep, String logradouro, String numero, String complemento, String bairro, String cidade,
-			String estado, Client cliente, AddressType tipoEndereco) {
+	public Address(String cep, String publicPlace, String number, String complement, String neighbourhood, String city,
+			String state, Client client, AddressType type, boolean active) {
 		this.cep = cep;
-		this.logradouro = logradouro;
-		this.numero = numero;
-		this.complemento = complemento;
-		this.bairro = bairro;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.setCliente(cliente);
-		this.tipoEndereco = tipoEndereco;
-		
+		this.publicPlace = publicPlace;
+		this.number = number;
+		this.complement = complement;
+		this.neighbourhood = neighbourhood;
+		this.city = city;
+		this.state = state;
+		this.client = client;
+		this.type = type;
+		this.active = active;
 	}
 
-
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
- 
-    public String getApelido() {
-        return apelido;
-    }
-
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
-    }
-
-	public AddressType getTipoEndereco() {
-		return tipoEndereco;
+	public String getCep() {
+		return cep;
 	}
 
-	public void setTipoEndereco(AddressType tipoEndereco) {
-		this.tipoEndereco = tipoEndereco;
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
-	public Client getCliente() {
-		return cliente;
+	public String getPublicPlace() {
+		return publicPlace;
 	}
 
-	public void setCliente(Client cliente) {
-		this.cliente = cliente;
+	public void setPublicPlace(String publicPlace) {
+		this.publicPlace = publicPlace;
 	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getComplement() {
+		return complement;
+	}
+
+	public void setComplement(String complement) {
+		this.complement = complement;
+	}
+
+	public String getNeighbourhood() {
+		return neighbourhood;
+	}
+
+	public void setNeighbourhood(String neighbourhood) {
+		this.neighbourhood = neighbourhood;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public AddressType getType() {
+		return type;
+	}
+
+	public void setType(AddressType type) {
+		this.type = type;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean isActive) {
+		this.active = isActive;
+	}
+
 }

@@ -10,21 +10,21 @@ import domain.client.DomainEntity;
 
 public class ValidateDuplicateCPF implements IStrategy {
 
-		public String process(DomainEntity entity) {
-			Client cliente = (Client) entity;
+	public String process(DomainEntity entity) {
+		Client client = (Client) entity;
 
-			List<DomainEntity> consultList = new ArrayList<DomainEntity>();
+		List<DomainEntity> consultList = new ArrayList<DomainEntity>();
 
-			Client clientToConsult = new Client();
-			clientToConsult.setCpf(cliente.getCpf());
+		Client clientToConsult = new Client();
+		clientToConsult.setCpf(client.getCpf());
 
-			consultList = new ClientDAO().consult(clientToConsult);
+		consultList = new ClientDAO().consult(clientToConsult);
 
-			if (!consultList.isEmpty()) {
-				return "CPF já cadastrado";
-			}
+		if (!consultList.isEmpty()) {
+			return "CPF já cadastrado";
+		}
 
-			return null;
+		return null;
 	}
 
 }

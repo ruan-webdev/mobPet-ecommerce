@@ -2,72 +2,61 @@ package domain.client;
 
 public class User extends DomainEntity{
 	
+	private String email;
+	private String password;
+	private String confirmPassword;
+	private UserRole role;
+	private boolean active;
 
-	    private String email;
-	    private String senha;
-	    private String confirmarSenha;
-	    private UserType tipoUsuario;
-	    private UserRole role;
-	    private boolean ativo;
-	    
-	    public User() {
+	public User() {
 
-		}
+	}
 
-		public User(String email, String senha, String confirmarSenha, UserType tipoUsuario) {
-			this.email = email;
-			this.senha = senha;
-			this.confirmarSenha = confirmarSenha;
-			this.tipoUsuario = tipoUsuario;
-		}
-	
-	    public String getEmail() {
-	        return email;
-	    }
+	public User(String email, String password, String confirmPassword, UserRole role, boolean active) {
+		this.email = email;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+		this.role = role;
+		this.active = active;
+	}
 
-	    public void setEmail(String email) {
-	        this.email = email;
-	    }
+	public String getEmail() {
+		return email;
+	}
 
-	 
-	    public String getSenha() {
-	        return senha;
-	    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-	    public void setSenha(String senha) {
-	        this.senha = senha;
-	    }
+	public String getPassword() {
+		return password;
+	}
 
-	    public String getConfirmarSenha() {
-	        return confirmarSenha;
-	    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-	    public void setConfirmarSenha(String confirmarSenha) {
-	        this.confirmarSenha = confirmarSenha;
-	    }
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
 
-	    public UserType getTipoUsuario() {
-	        return tipoUsuario;
-	    }
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 
-	    public void setTipoUsuario(UserType tipoUsuario) {
-	        this.tipoUsuario = tipoUsuario;
-	    }
+	public UserRole getRole() {
+		return role;
+	}
 
-		public UserRole getRole() {
-			return role;
-		}
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
 
-		public void setRole(UserRole role) {
-			this.role = role;
-		}
+	public boolean isActive() {
+		return active;
+	}
 
-		public boolean isActive() {
-			return ativo;
-		}
-
-		public void setActive(boolean ativo) {
-			this.ativo = ativo;
-		}
-
+	public void setActive(boolean isActive) {
+		this.active = isActive;
+	}
 }

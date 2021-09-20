@@ -12,12 +12,11 @@ import controller.viewHelper.model.IViewHelper;
 import domain.client.DomainEntity;
 import domain.client.Result;
 import domain.client.User;
-import domain.client.UserType;
+import domain.client.UserRole;
+
 
 public class LoginViewHelper implements IViewHelper {
 	
-
-
 	public DomainEntity getEntity(HttpServletRequest request) {
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -37,19 +36,19 @@ public class LoginViewHelper implements IViewHelper {
 					}
 				}
 
-				String senha = "";
-				if (null != request.getParameter("senha")) {
+				String password = "";
+				if (null != request.getParameter("password")) {
 					try {
-						senha = request.getParameter("senha");
+						password = request.getParameter("password");
 					} catch (Exception ex) {
 					}
 				}
 
-				User usuario = new User();
-				usuario.setEmail(email);
-				usuario.setSenha(senha);
+				User user = new User();
+				user.setEmail(email);
+				user.setPassword(password);
 
-				return usuario;
+				return user;
 			}
 		}
 
@@ -59,14 +58,11 @@ public class LoginViewHelper implements IViewHelper {
 	public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String operation = request.getParameter("operation");
-		
-		System.out.println("cheguei aqui"+operation);
 
 		if (operation.equals("login")) {
 			List<DomainEntity> resultEntities = result.getEntities();
 
 			if (null == resultEntities) {
-				System.out.println("caiu no primeiro retorno");
 				return;
 			}
 
@@ -75,21 +71,17 @@ public class LoginViewHelper implements IViewHelper {
 				
 				request.getSession().setAttribute("loggedUser", resultUser);
 				
-				
-				System.out.println(resultUser);
-				if (resultUser.getTipoUsuario() == null ) {
-					
+				if (resultUser.getRole() == UserRole.CLIENT) {
 					response.sendRedirect("ecommerce/signed.jsp");
 					return;
 				} else {
 					// TODO admin
-					System.out.println("caiu no segundo retorno");
 					return;
 				}
 			} else {
 				String message = "E-mail e/ou senha inválidos!";
 				request.setAttribute("message", message);
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("/ecommerce/login.jsp").forward(request, response);
 			}
 		}
 	}

@@ -12,19 +12,18 @@ import domain.client.User;
 public class ValidateDuplicateEmail implements IStrategy {
 
 	public String process(DomainEntity entity) {
-		
-		Client cliente = (Client) entity;
+		Client client = (Client) entity;
 
 		List<DomainEntity> consultList = new ArrayList<DomainEntity>();
 
 		Client clientToConsult = new Client();
 		
 		User userToConsult = new User();
-		userToConsult.setEmail(cliente.getUsuario().getEmail());
+		userToConsult.setEmail(client.getUser().getEmail());
 		
-		clientToConsult.setUsuario(userToConsult);
+		clientToConsult.setUser(userToConsult);
 
-		consultList = new UserDAO().consult(clientToConsult.getUsuario());
+		consultList = new UserDAO().consult(clientToConsult.getUser());
 
 		if (!consultList.isEmpty()) {
 			return "E-mail já cadastrado";

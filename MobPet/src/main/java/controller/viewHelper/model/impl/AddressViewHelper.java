@@ -17,7 +17,6 @@ import domain.client.Result;
 import domain.client.User;
 
 public class AddressViewHelper implements IViewHelper {
-
 	public DomainEntity getEntity(HttpServletRequest request) {
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -25,19 +24,17 @@ public class AddressViewHelper implements IViewHelper {
 			e.printStackTrace();
 		}
 		String operation = request.getParameter("operation");
-		System.out.println("operacao = "+operation);
 
 		if (null != operation) {
 			if (operation.equals("save")) {
-				
-				String estado = "";
-				if (null != request.getParameter("estado")) {
+				int userId = 0;
+				if (null != request.getParameter("userId")) {
 					try {
-						estado = request.getParameter("estado");
+						userId = Integer.valueOf(request.getParameter("userId"));
 					} catch (Exception ex) {
 					}
 				}
-
+				
 				String cep = "";
 				if (null != request.getParameter("cep")) {
 					try {
@@ -45,92 +42,90 @@ public class AddressViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-
-				String cidade = "";
-				if (null != request.getParameter("cidade")) {
+				
+				String publicPlace = "";
+				if (null != request.getParameter("publicPlace")) {
 					try {
-						cidade = request.getParameter("cidade");
+						publicPlace = request.getParameter("publicPlace");
 					} catch (Exception ex) {
 					}
-				}
-
-				String bairro = "";
-				if (null != request.getParameter("bairro")) {
-					try {
-						bairro = request.getParameter("bairro");
-					} catch (Exception ex) {
-					}
-				}
-
-				String logradouro = "";
-				if (null != request.getParameter("logradouro")) {
-					try {
-						logradouro = request.getParameter("logradouro");
-					} catch (Exception ex) {
-					}
-				}
-
-				String num = "";
-				if (null != request.getParameter("num")) {
-					try {
-						num = request.getParameter("num");
-					} catch (Exception ex) {
-					}
-				}
-
-				String complemento = "";
-				if (null != request.getParameter("complemento")) {
-					try {
-						complemento = request.getParameter("complemento");
-					} catch (Exception ex) {
-					}
-				}
-
-				String tipo = "";
-				if (null != request.getParameter("tipo")) {
-					try {
-						tipo = request.getParameter("tipo");
-					} catch (Exception ex) {
-					}
-				}
-
-				String nomePerso = "";
-				if (null != request.getParameter("nomePerso")) {
-					try {
-						nomePerso = request.getParameter("nomePerso");
-					} catch (Exception ex) {
-					}
-				}
-
-				Address endereco = new Address();
-				endereco.setEstado(estado);
-				endereco.setCep(cep);
-				endereco.setCidade(cidade);
-				endereco.setBairro(bairro);
-				endereco.setLogradouro(logradouro);
-				endereco.setNumero(num);
-				endereco.setComplemento(complemento);
-				endereco.setApelido(nomePerso);
-				if (tipo.equals("entrega")) {
-					endereco.setTipoEndereco(AddressType.ENTREGA);
-				} else if (tipo.equals("cobranca")) {
-					endereco.setTipoEndereco(AddressType.COBRANCA);
-				} else if (tipo.equals("cobranca_entrega")) {
-					endereco.setTipoEndereco(AddressType.COBRANCA_ENTREGA);
 				}
 				
+				String state = "";
+				if (null != request.getParameter("state")) {
+					try {
+						state = request.getParameter("state");
+					} catch (Exception ex) {
+					}
+				}
 				
-
-				Client cliente = new Client();
-
-				User usuario = new User();
-			
-				cliente.setUsuario(usuario);
-
-				endereco.setCliente(cliente);
-
-				return endereco;
-
+				String city = "";
+				if (null != request.getParameter("city")) {
+					try {
+						city = request.getParameter("city");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String neighbourhood = "";
+				if (null != request.getParameter("neighbourhood")) {
+					try {
+						neighbourhood = request.getParameter("neighbourhood");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String number = "";
+				if (null != request.getParameter("number")) {
+					try {
+						number = request.getParameter("number");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String complement = "";
+				if (null != request.getParameter("complement")) {
+					try {
+						complement = request.getParameter("complement");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String type = "";
+				if (null != request.getParameter("type")) {
+					try {
+						type = request.getParameter("type");
+					} catch (Exception ex) {
+					}
+				}
+				
+				Address address = new Address();
+				address.setCep(cep);
+				address.setPublicPlace(publicPlace);
+				address.setState(state);
+				address.setCity(city);
+				address.setNeighbourhood(neighbourhood);
+				address.setNumber(number);
+				address.setComplement(complement);
+				if (type.equals("shipping")) {
+					address.setType(AddressType.SHIPPING);
+				} else if (type.equals("billing")) {
+					address.setType(AddressType.BILLING);
+				} else if (type.equals("shipping_and_billing")) {
+					address.setType(AddressType.SHIPPING_AND_BILLING);
+				}
+				address.setActive(true);
+				
+				Client client = new Client();
+				
+				User user = new User();
+				user.setId(userId);
+				
+				client.setUser(user);
+				
+				address.setClient(client);
+				
+				return address;
 			} else if (operation.equals("consult")) {
 				int userId = 0;
 				if (null != request.getParameter("userId")) {
@@ -139,20 +134,19 @@ public class AddressViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-
-				Address endereco = new Address();
-
-				Client cliente = new Client();
-
-				User usuario = new User();
-				usuario.setId(userId);
-
-				cliente.setUsuario(usuario);
-
-				endereco.setCliente(cliente);
-
-				return endereco;
-
+				
+				Address address = new Address();
+				
+				Client client = new Client();
+				
+				User user = new User();
+				user.setId(userId);
+				
+				client.setUser(user);
+				
+				address.setClient(client);
+				
+				return address;
 			} else if (operation.equals("remove")) {
 				int id = 0;
 				if (null != request.getParameter("id")) {
@@ -161,15 +155,13 @@ public class AddressViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-
-				Address endereco = new Address();
-
-				endereco.setId(id);
-
-				return endereco;
-
+				
+				Address address = new Address();
+				
+				address.setId(id);
+				
+				return address;
 			} else if (operation.equals("update")) {
-
 				int userId = 0;
 				if (null != request.getParameter("userId")) {
 					try {
@@ -177,16 +169,15 @@ public class AddressViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-
-			
-				String estado = "";
-				if (null != request.getParameter("estado")) {
+				
+				int id = 0;
+				if (null != request.getParameter("id")) {
 					try {
-						estado = request.getParameter("estado");
+						id = Integer.valueOf(request.getParameter("id"));
 					} catch (Exception ex) {
 					}
 				}
-
+			
 				String cep = "";
 				if (null != request.getParameter("cep")) {
 					try {
@@ -194,93 +185,94 @@ public class AddressViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-
-				String cidade = "";
-				if (null != request.getParameter("cidade")) {
-					try {
-						cidade = request.getParameter("cidade");
-					} catch (Exception ex) {
-					}
-				}
-
-				String bairro = "";
-				if (null != request.getParameter("bairro")) {
-					try {
-						bairro = request.getParameter("bairro");
-					} catch (Exception ex) {
-					}
-				}
-
-				String logradouro = "";
-				if (null != request.getParameter("logradouro")) {
-					try {
-						bairro = request.getParameter("logradouro");
-					} catch (Exception ex) {
-					}
-				}
-
-				String num = "";
-				if (null != request.getParameter("num")) {
-					try {
-						num = request.getParameter("num");
-					} catch (Exception ex) {
-					}
-				}
-
-				String complemento = "";
-				if (null != request.getParameter("complemento")) {
-					try {
-						complemento = request.getParameter("complemento");
-					} catch (Exception ex) {
-					}
-				}
-
-				String tipo = "";
-				if (null != request.getParameter("tipo")) {
-					try {
-						tipo = request.getParameter("tipo");
-					} catch (Exception ex) {
-					}
-				}
-
-				String nomePerso = "";
-				if (null != request.getParameter("nomePerso")) {
-					try {
-						nomePerso = request.getParameter("nomePerso");
-					} catch (Exception ex) {
-					}
-				}
-
-				Address endereco = new Address();
-				endereco.setEstado(estado);
-				endereco.setCep(cep);
-				endereco.setCidade(cidade);
-				endereco.setBairro(bairro);
-				endereco.setLogradouro(logradouro);
-				endereco.setNumero(num);
-				endereco.setComplemento(complemento);
-				endereco.setApelido(nomePerso);
-				if (tipo.equals("entrega")) {
-					endereco.setTipoEndereco(AddressType.ENTREGA);
-				} else if (tipo.equals("cobranca")) {
-					endereco.setTipoEndereco(AddressType.COBRANCA);
-				} else if (tipo.equals("cobranca_entrega")) {
-					endereco.setTipoEndereco(AddressType.COBRANCA_ENTREGA);
-				}
-
-				Client cliente = new Client();
-
-				User usuario = new User();
-				usuario.setId(userId);
-
-				cliente.setUsuario(usuario);
-
-				endereco.setCliente(cliente);
 				
-				System.out.println(endereco);
-
-				return endereco;
-
+				String publicPlace = "";
+				if (null != request.getParameter("publicPlace")) {
+					try {
+						publicPlace = request.getParameter("publicPlace");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String state = "";
+				if (null != request.getParameter("state")) {
+					try {
+						state = request.getParameter("state");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String city = "";
+				if (null != request.getParameter("city")) {
+					try {
+						city = request.getParameter("city");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String neighbourhood = "";
+				if (null != request.getParameter("neighbourhood")) {
+					try {
+						neighbourhood = request.getParameter("neighbourhood");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String number = "";
+				if (null != request.getParameter("number")) {
+					try {
+						number = request.getParameter("number");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String complement = "";
+				if (null != request.getParameter("complement")) {
+					try {
+						complement = request.getParameter("complement");
+					} catch (Exception ex) {
+					}
+				}
+				
+				String type = "";
+				if (null != request.getParameter("type")) {
+					try {
+						type = request.getParameter("type");
+					} catch (Exception ex) {
+					}
+				}
+				
+				Address address = new Address();
+				
+				address.setId(id);
+				address.setCep(cep);
+				address.setPublicPlace(publicPlace);
+				address.setState(state);
+				address.setCity(city);
+				address.setNeighbourhood(neighbourhood);
+				address.setNumber(number);
+				address.setComplement(complement);
+				if (type.equals("shipping")) {
+					address.setType(AddressType.SHIPPING);
+				} else if (type.equals("billing")) {
+					address.setType(AddressType.BILLING);
+				} else if (type.equals("shipping_and_billing")) {
+					address.setType(AddressType.SHIPPING_AND_BILLING);
+				}
+				address.setActive(true);
+				
+				Client client = new Client();
+				
+				User user = new User();
+				user.setId(userId);
+				
+				client.setUser(user);
+				
+				address.setClient(client);
+				
+				address.setActive(true);
+				
+				return address;
 			} else if (operation.equals("prepareUpdate")) {
 				int id = 0;
 				if (null != request.getParameter("id")) {
@@ -289,28 +281,26 @@ public class AddressViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-
-				Address endereco = new Address();
-
-				endereco.setId(id);
-
-				return endereco;
+				
+				Address address = new Address();
+				
+				address.setId(id);
+				
+				return address;
 			}
 		}
-
+		
 		return null;
 	}
 
 	public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String operation = request.getParameter("operation");
-		
-	
-		
+
 		if (operation.equals("save")) {
-			Address endereco = (Address) result.getEntities().get(0);
-			request.setAttribute("address", endereco);
-			if (null == endereco) {
+			Address address = (Address) result.getEntities().get(0);
+			request.setAttribute("address", address);
+			if (null == address) {
 				return;
 			}
 			if (null == result.getMessage()) {
@@ -330,17 +320,17 @@ public class AddressViewHelper implements IViewHelper {
 
 			request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 		} else if (operation.equals("remove")) {
-			Address endereco = (Address) result.getEntities().get(0);
+			Address address = (Address) result.getEntities().get(0);
 
-			if (null == endereco) {
+			if (null == address) {
 				return;
 			}
 
 			response.sendRedirect("ecommerce/adicionarEndereco.jsp");
 		} else if (operation.equals("update")) {
-			Address endereco = (Address) result.getEntities().get(0);
-			request.setAttribute("address", endereco);
-			if (null == endereco) {
+			Address address = (Address) result.getEntities().get(0);
+			request.setAttribute("address", address);
+			if (null == address) {
 				return;
 			}
 			if (null == result.getMessage()) {
@@ -351,13 +341,13 @@ public class AddressViewHelper implements IViewHelper {
 				request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 			}
 		} else if (operation.equals("prepareUpdate")) {
-			Address endereco = (Address) result.getEntities().get(0);
+			Address address = (Address) result.getEntities().get(0);
 
-			if (null == endereco) {
+			if (null == address) {
 				return;
 			}
-
-			request.setAttribute("endereco", endereco);
+			
+			request.setAttribute("address", address);
 
 			request.getRequestDispatcher("ecommerce/adicionarEndereco.jsp").forward(request, response);
 		}

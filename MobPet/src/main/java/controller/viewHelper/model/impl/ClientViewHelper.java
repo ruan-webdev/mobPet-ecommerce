@@ -12,13 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import controller.viewHelper.model.IViewHelper;
 import domain.client.Client;
 import domain.client.DomainEntity;
+import domain.client.Gender;
 import domain.client.Result;
 import domain.client.User;
-import domain.client.UserType;
+import domain.client.UserRole;
 
 public class ClientViewHelper implements IViewHelper {
 
 	public DomainEntity getEntity(HttpServletRequest request) {
+
 		try {
 			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -26,15 +28,14 @@ public class ClientViewHelper implements IViewHelper {
 		}
 
 		String operation = request.getParameter("operation");
-		System.out.println("operacao = "+operation);
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		if (null != operation) {
 			if (operation.equals("save")) {
-				String nome = null;
-				if (null != request.getParameter("nome")) {
+				String name = null;
+				if (null != request.getParameter("name")) {
 					try {
-						nome = request.getParameter("nome");
+						name = request.getParameter("name");
 					} catch (Exception ex) {
 					}
 				}
@@ -47,14 +48,14 @@ public class ClientViewHelper implements IViewHelper {
 					}
 				}
 
-				LocalDate dataNasc = null;
-				if (null != request.getParameter("dataNascimento")) {
+				LocalDate dateOfBirth = null;
+				if (null != request.getParameter("dateOfBirth")) {
 					try {
-						dataNasc = LocalDate.parse(request.getParameter("dataNascimento"), dateTimeFormatter);
+						dateOfBirth = LocalDate.parse(request.getParameter("dateOfBirth"), dateTimeFormatter);
 					} catch (Exception ex) {
 					}
 				}
-				
+
 				String email = null;
 				if (null != request.getParameter("email")) {
 					try {
@@ -62,57 +63,51 @@ public class ClientViewHelper implements IViewHelper {
 					} catch (Exception ex) {
 					}
 				}
-				
-				String genero = null;
-				if (null != request.getParameter("genero")) {
-					try {
-						genero = request.getParameter("genero");
-					} catch (Exception ex) {
-					}
-				}
-				
 
-				String telefone = null;
-				if (null != request.getParameter("telefone")) {
+				String password = null;
+				if (null != request.getParameter("password")) {
 					try {
-						telefone = request.getParameter("telefone");
+						password = request.getParameter("password");
 					} catch (Exception ex) {
 					}
 				}
 
-				String senha = null;
-				if (null != request.getParameter("senha")) {
+				String confirmPassword = null;
+				if (null != request.getParameter("confirmPassword")) {
 					try {
-						senha = request.getParameter("senha");
+						confirmPassword = request.getParameter("confirmPassword");
 					} catch (Exception ex) {
 					}
 				}
 
-				String confirmarSenha = null;
-				if (null != request.getParameter("confirmarSenha")) {
+				Gender gender = null;
+				if (null != request.getParameter("gender")) {
 					try {
-						confirmarSenha = request.getParameter("confirmarSenha");
+						if (request.getParameter("gender").charAt(0) == 'm') {
+							gender = Gender.MALE;
+						} else if (request.getParameter("gender").charAt(0) == 'f') {
+							gender = Gender.FEMALE;
+						}
 					} catch (Exception ex) {
 					}
 				}
 
-				Client cliente = new Client();
-				cliente.setNome(nome);
-				cliente.setCpf(cpf);
-				cliente.setDataNascimento(dataNasc);
-				cliente.setGenero(genero);
-				cliente.setTelefone(telefone);
+				Client client = new Client();
+				client.setName(name);
+				client.setCpf(cpf);
+				client.setDateOfBirth(dateOfBirth);
 
-				User usuario = new User();
-				usuario.setEmail(email);
-				usuario.setSenha(senha);
-				usuario.setConfirmarSenha(confirmarSenha);
-				usuario.setTipoUsuario(UserType.CLIENT);
-				usuario.setActive(true);
+				User user = new User();
+				user.setEmail(email);
+				user.setPassword(password);
+				user.setConfirmPassword(confirmPassword);
+				user.setRole(UserRole.CLIENT);
+				user.setActive(true);
 
-				cliente.setUsuario(usuario);
+				client.setUser(user);
+				client.setGender(gender);
 
-				return cliente;
+				return client;
 			} else if (operation.equals("consult")) {
 				int clientUserId = 0;
 				if (null != request.getParameter("userId")) {
@@ -122,20 +117,19 @@ public class ClientViewHelper implements IViewHelper {
 					}
 				}
 
-				Client cliente = new Client();
+				Client client = new Client();
 
-				User usuario = new User();
-				usuario.setId(clientUserId);
+				User user = new User();
+				user.setId(clientUserId);
 
-				cliente.setUsuario(usuario);
+				client.setUser(user);
 
-				return cliente;
-
+				return client;
 			} else if (operation.equals("update")) {
-				String nome = null;
-				if (null != request.getParameter("nome")) {
+				String name = null;
+				if (null != request.getParameter("name")) {
 					try {
-						nome = request.getParameter("nome");
+						name = request.getParameter("name");
 					} catch (Exception ex) {
 					}
 				}
@@ -148,10 +142,10 @@ public class ClientViewHelper implements IViewHelper {
 					}
 				}
 
-				LocalDate dataNasc = null;
-				if (null != request.getParameter("dataNascimento")) {
+				LocalDate dateOfBirth = null;
+				if (null != request.getParameter("dateOfBirth")) {
 					try {
-						dataNasc = LocalDate.parse(request.getParameter("dataNascimento"), dateTimeFormatter);
+						dateOfBirth = LocalDate.parse(request.getParameter("dateOfBirth"), dateTimeFormatter);
 					} catch (Exception ex) {
 					}
 				}
@@ -164,52 +158,73 @@ public class ClientViewHelper implements IViewHelper {
 					}
 				}
 
-				String senha = null;
-				if (null != request.getParameter("senha")) {
+				String password = null;
+				if (null != request.getParameter("password")) {
 					try {
-						senha = request.getParameter("senha");
+						password = request.getParameter("password");
 					} catch (Exception ex) {
 					}
 				}
 
-				String confirmarSenha = null;
-				if (null != request.getParameter("confirmarSenha")) {
+				String confirmPassword = null;
+				if (null != request.getParameter("confirmPassword")) {
 					try {
-						confirmarSenha = request.getParameter("confirmarSenha");
+						confirmPassword = request.getParameter("confirmPassword");
 					} catch (Exception ex) {
 					}
 				}
 
-				String genero = null;
-				if (null != request.getParameter("genero")) {
+				Gender gender = null;
+				if (null != request.getParameter("gender")) {
 					try {
-						genero = request.getParameter("genero");
+						if (request.getParameter("gender").charAt(0) == 'm') {
+							gender = Gender.MALE;
+						} else if (request.getParameter("gender").charAt(0) == 'f') {
+							gender = Gender.FEMALE;
+						}
 					} catch (Exception ex) {
-
 					}
-
 				}
-				Client cliente = new Client();
 
-				cliente.setNome(nome);
-				cliente.setCpf(cpf);
-				cliente.setDataNascimento(dataNasc);
+				int clientUserId = 0;
+				if (null != request.getParameter("clientUserId")) {
+					try {
+						clientUserId = Integer.valueOf(request.getParameter("clientUserId"));
+					} catch (Exception ex) {
+					}
+				}
 
-				User usuario = new User();
-				usuario.setEmail(email);
-				usuario.setSenha(senha);
-				usuario.setConfirmarSenha(confirmarSenha);
-				usuario.setTipoUsuario(UserType.CLIENT);
-				usuario.setActive(true);
+				int clientId = 0;
+				if (null != request.getParameter("clientId")) {
+					try {
+						clientId = Integer.valueOf(request.getParameter("clientId"));
+					} catch (Exception ex) {
+					}
+				}
 
-				cliente.setUsuario(usuario);
-				cliente.setGenero(genero);
+				Client client = new Client();
+				client.setId(clientId);
+				client.setName(name);
+				client.setCpf(cpf);
+				client.setDateOfBirth(dateOfBirth);
 
-				return cliente;
+				User user = new User();
+				user.setId(clientUserId);
+				user.setEmail(email);
+				user.setPassword(password);
+				user.setConfirmPassword(confirmPassword);
+				user.setRole(UserRole.CLIENT);
+				user.setActive(true);
+
+				client.setUser(user);
+				client.setGender(gender);
+
+				return client;
 			}
 		}
 
 		return null;
+
 	}
 
 	public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
@@ -217,43 +232,39 @@ public class ClientViewHelper implements IViewHelper {
 		String operation = request.getParameter("operation");
 
 		if (operation.equals("save")) {
-			Client cliente = (Client) result.getEntities().get(0);
-			request.setAttribute("client", cliente);
-			if (null == cliente) {
+			Client client = (Client) result.getEntities().get(0);
+			request.setAttribute("client", client);
+			if (null == client) {
 				return;
 			}
 			if (null == result.getMessage()) {
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("ecommerce/login.jsp").forward(request, response);
 			} else {
 				String[] messages = result.getMessage().trim().split("\n");
 				request.setAttribute("messages", messages);
-				for(String message: messages){
-					System.out.println(message);
-				}
-				
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("ecommerce/cadastro.jsp").forward(request, response);
 			}
 		} else if (operation.equals("consult")) {
-			Client cliente = (Client) result.getEntities().get(0);
-			request.setAttribute("client", cliente);
-			if (null == cliente) {
+			Client client = (Client) result.getEntities().get(0);
+			request.setAttribute("client", client);
+			if (null == client) {
 				return;
 			}
 
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.getRequestDispatcher("ecommerce/perfilCliente.jsp").forward(request, response);
 		} else if (operation.equals("update")) {
-			Client cliente = (Client) result.getEntities().get(0);
-			request.setAttribute("client", cliente);
-			if (null == cliente) {
+			Client client = (Client) result.getEntities().get(0);
+			request.setAttribute("client", client);
+			if (null == client) {
 				return;
 			}
 			if (null == result.getMessage()) {
-				request.getSession().setAttribute("loggedUser", cliente.getUsuario());
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getSession().setAttribute("loggedUser", client.getUser());
+				request.getRequestDispatcher("ecommerce/perfilCliente.jsp").forward(request, response);
 			} else {
 				String[] messages = result.getMessage().trim().split("\n");
 				request.setAttribute("messages", messages);
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("ecommerce/perfilCliente.jsp").forward(request, response);
 			}
 		}
 	}

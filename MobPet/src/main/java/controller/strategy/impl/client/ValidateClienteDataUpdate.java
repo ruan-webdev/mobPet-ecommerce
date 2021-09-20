@@ -7,25 +7,25 @@ import domain.client.DomainEntity;
 public class ValidateClienteDataUpdate implements IStrategy {
 
 	public String process(DomainEntity entity) {
-		
-		Client cliente = (Client) entity;
+		Client client = (Client) entity;
 
-		if (null == cliente.getNome() || cliente.getNome().trim().isEmpty()) {
+		if (null == client.getName() || client.getName().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == cliente.getDataNascimento() || cliente.getDataNascimento().toString().trim().isEmpty()) {
+		if (null == client.getDateOfBirth() || client.getDateOfBirth().toString().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == cliente.getUsuario().getSenha() || cliente.getUsuario().getSenha().trim().isEmpty()) {
+		if (null == client.getUser().getPassword() || client.getUser().getPassword().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		if (null == cliente.getUsuario().getConfirmarSenha() || cliente.getUsuario().getConfirmarSenha().trim().isEmpty()) {
+		if (null == client.getUser().getConfirmPassword() || client.getUser().getConfirmPassword().trim().isEmpty()) {
 			return "Preencha todos os campos obrigatórios";
 		}
-		
+		if (null == client.getGender() || client.getGender().toString().trim().isEmpty()) {
+			return "Preencha todos os campos obrigatórios";
+		}
 
 		return null;
-		
 	}
 
 }

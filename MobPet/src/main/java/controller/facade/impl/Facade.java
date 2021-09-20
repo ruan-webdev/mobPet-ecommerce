@@ -19,31 +19,38 @@ import controller.strategy.impl.client.ValidateEmail;
 import controller.strategy.impl.client.ValidatePasswordStrenght;
 import controller.strategy.impl.credit_card.ValidateCreditCardData;
 import controller.strategy.impl.credit_card.ValidateExpirationDate;
+import controller.strategy.impl.phone.ValidateDuplicatePhone;
+import controller.strategy.impl.phone.ValidatePhone;
+import controller.strategy.impl.phone.ValidatePhoneData;
 import dao.IDAO;
 import dao.impl.AddressDAO;
 import dao.impl.ClientDAO;
 import dao.impl.CreditCardDAO;
+import dao.impl.PhoneDAO;
 import dao.impl.UserDAO;
 import domain.client.Address;
 import domain.client.Client;
 import domain.client.CreditCard;
 import domain.client.DomainEntity;
+import domain.client.Phone;
 import domain.client.Result;
 import domain.client.User;
 
 public class Facade implements IFacade {
 	
+
 	private Map<String, Map<String, List<IStrategy>>> businessRulesMap;
 	private Map<String, IDAO> daosMap;
 	private Result result;
 	private StringBuilder stringBuilder;
-	
+
 	public Facade() {
 		stringBuilder = new StringBuilder();
 
 		daosMap = new HashMap<String, IDAO>();
 		daosMap.put(Client.class.getName(), new ClientDAO());
 		daosMap.put(User.class.getName(), new UserDAO());
+		daosMap.put(Phone.class.getName(), new PhoneDAO());
 		daosMap.put(CreditCard.class.getName(), new CreditCardDAO());
 		daosMap.put(Address.class.getName(), new AddressDAO());
 
@@ -79,9 +86,25 @@ public class Facade implements IFacade {
 
 		List<IStrategy> businessRulesUpdateAdress = new ArrayList<IStrategy>();
 		businessRulesUpdateAdress.add(new ValidateAdressData());
+
 		businessRulesAdressMap.put("save", businessRulesSaveAdress);
 		businessRulesAdressMap.put("update", businessRulesUpdateAdress);
 
+		// Phone
+		Map<String, List<IStrategy>> businessRulesPhoneMap = new HashMap<String, List<IStrategy>>();
+
+		List<IStrategy> businessRulesSavePhone = new ArrayList<IStrategy>();
+		businessRulesSavePhone.add(new ValidatePhoneData());
+		businessRulesSavePhone.add(new ValidatePhone());
+		businessRulesSavePhone.add(new ValidateDuplicatePhone());
+
+		List<IStrategy> businessRulesUpdatePhone = new ArrayList<IStrategy>();
+		businessRulesUpdatePhone.add(new ValidatePhoneData());
+		businessRulesUpdatePhone.add(new ValidatePhone());
+		businessRulesUpdatePhone.add(new ValidateDuplicatePhone());
+
+		businessRulesPhoneMap.put("save", businessRulesSavePhone);
+		businessRulesPhoneMap.put("update", businessRulesUpdatePhone);
 
 		// Credit card
 		Map<String, List<IStrategy>> businessRulesCreditCardMap = new HashMap<String, List<IStrategy>>();
@@ -96,15 +119,15 @@ public class Facade implements IFacade {
 
 		businessRulesCreditCardMap.put("save", businessRulesSaveCreditCard);
 		businessRulesCreditCardMap.put("update", businessRulesSaveCreditCard);
-		
 
 		businessRulesMap.put(Client.class.getName(), businessRulesClientMap);
 		businessRulesMap.put(Address.class.getName(), businessRulesAdressMap);
+		businessRulesMap.put(Phone.class.getName(), businessRulesPhoneMap);
 		businessRulesMap.put(CreditCard.class.getName(), businessRulesCreditCardMap);
 	}
-	
+
 	private void processBusinessRules(DomainEntity entity, List<IStrategy> businessRulesEntity) {
- 		for (IStrategy businessRule : businessRulesEntity) {
+		for (IStrategy businessRule : businessRulesEntity) {
 			String message = businessRule.process(entity);
 			if (null != message) {
 				stringBuilder.append(message + '\n');
@@ -129,8 +152,6 @@ public class Facade implements IFacade {
 		if (stringBuilder.length() == 0) {
 			daosMap.get(entityName).save(entity);
 		} else {
-			
-			System.out.println("deu erro nessa paradinha aqui");
 			result.setMessage(stringBuilder.toString());
 		}
 
@@ -148,6 +169,7 @@ public class Facade implements IFacade {
 		
 		return result;
 	}
+
 
 	public Result update(DomainEntity entity) {
 		result = new Result();
@@ -171,6 +193,7 @@ public class Facade implements IFacade {
 		return result;
 	}
 
+
 	public Result consult(DomainEntity entity) {
 		result = new Result();
 		
@@ -182,5 +205,6 @@ public class Facade implements IFacade {
 		
 		return result;
 	}
+
 
 }

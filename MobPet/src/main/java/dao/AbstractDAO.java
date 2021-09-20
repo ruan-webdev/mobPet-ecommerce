@@ -7,7 +7,7 @@ import utils.ConnectionFactory;
 
 public abstract class AbstractDAO implements IDAO {
 
-	protected Connection conn;
+	protected Connection connection;
 	protected String table;
 	protected String idTable;
 
@@ -18,8 +18,8 @@ public abstract class AbstractDAO implements IDAO {
 
 	protected void openConnection() {
 		try {
-			if (conn == null || conn.isClosed()) {
-				conn = ConnectionFactory.getConexao();
+			if (connection == null || connection.isClosed()) {
+				connection = ConnectionFactory.getConexao();
 			}
 			
 		} 

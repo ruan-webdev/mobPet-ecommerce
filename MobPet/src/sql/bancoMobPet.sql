@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS db_mobpet;
 USE db_mobpet;
 
+drop database db_mobpet;
+
 CREATE TABLE IF NOT EXISTS usuarios(
     usr_id               INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     usr_email            VARCHAR(30),
